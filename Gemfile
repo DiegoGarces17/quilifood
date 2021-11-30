@@ -55,3 +55,11 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
 
 gem 'simple_form'
+
+gem 'sprockets-rails', :require => 'sprockets/railtie'
+
+# gema para permisos
+
+gem 'cancancan'
+
+gem 'webpacker', '~> 5.0'

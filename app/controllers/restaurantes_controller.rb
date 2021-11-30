@@ -1,13 +1,23 @@
 class RestaurantesController < ApplicationController
+  load_and_authorize_resource
   before_action :set_restaurante, only: %i[ show edit update destroy ]
-
+  skip_before_action :verify_authenticity_token
   # GET /restaurantes or /restaurantes.json
   def index
     @restaurantes = Restaurante.all
+    
+    respond_to do |format|    
+        format.html
+        format.json { render json: @restaurantes }
+    end
   end
 
   # GET /restaurantes/1 or /restaurantes/1.json
   def show
+    respond_to do |format|    
+      format.html
+      format.json { render json: @restaurante }
+    end  
   end
 
   # GET /restaurantes/new
@@ -22,10 +32,11 @@ class RestaurantesController < ApplicationController
   # POST /restaurantes or /restaurantes.json
   def create
     @restaurante = Restaurante.new(restaurante_params)
-
+    @restaurante.propietario_id = current_usuario.id
+    
     respond_to do |format|
       if @restaurante.save
-        format.html { redirect_to @restaurante, notice: "Restaurante was successfully created." }
+        format.html { redirect_to @restaurante, notice: "¡Restaurante creado exitosamene!" }
         format.json { render :show, status: :created, location: @restaurante }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -47,6 +58,9 @@ class RestaurantesController < ApplicationController
     end
   end
 
+  def mapa
+    render "mapa"
+  end
   # DELETE /restaurantes/1 or /restaurantes/1.json
   def destroy
     @restaurante.destroy
@@ -64,6 +78,6 @@ class RestaurantesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def restaurante_params
-      params.require(:restaurante).permit(:nombre)
+      params.require(:restaurante).permit(:nombre, :direccion, :telefono, :lng, :lat, :avatar, :image)
     end
 end

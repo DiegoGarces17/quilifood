@@ -1,0 +1,51 @@
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.Default.css' rel='stylesheet' />
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.css' rel='stylesheet' />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin=""/>
+<div id="filtro-osm">
+  <div class="card border-primary">
+    <div class="card-body">
+          <div class="col-sm-8">
+            
+          </div>
+          <div class="col-sm-4">
+            <div class= "row">
+              <div class="col-sm-6">
+                <div class="alert alert-success" role="alert">
+                  <span class="nrcasos" id="nrcasos"></span>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                
+                
+                <div id="cargador" class="spinner-border text-secondary" role="status">
+                  <span class='sr-only'>Cargando...</span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div id="mapa-osm"></div>
+<% if current_usuario %>
+  <div id="agrega-capa">
+    <button id="agregar-capa" type="button" class="btn btn-primary btn-sm">Agregar capa GeoJSON (&lt;100K)</button>
+  </div>
+  <div id="descarga-mapa">
+    <button id="descargar-mapa" type="button" class="btn btn-primary btn-sm"><a id= "enlace-descarga">Descargar capa de casos</a></button>
+  </div>
+<% end %>
+<% if current_usuario %>
+  <script>
+    presentarMapaOsm(true)
+  </script>
+<% else %>
+  <script>
+    presentarMapaOsm(false)
+  </script>
+<% end %>

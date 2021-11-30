@@ -1,9 +1,20 @@
 <p id="notice"><%= notice %></p>
+<h1>Restaurante</h1>
 
 <p>
   <strong>Nombre:</strong>
   <%= @restaurante.nombre %>
 </p>
 
-<%= link_to 'Edit', edit_restaurante_path(@restaurante) %> |
+<% if @restaurante.avatar.attached? %>
+ <image src="<%=(url_for(@restaurante.avatar))%>">
+<% end %>
+</br>
+<% if @restaurante.image.attached? %>
+ <image src="<%=(url_for(@restaurante.image))%>">
+<% end %>
+</br>
+<% if can? :update, @restaurante  %>
+<%= link_to 'Edit', edit_restaurante_path(@restaurante) %> 
+<% end %>
 <%= link_to 'Back', restaurantes_path %>
