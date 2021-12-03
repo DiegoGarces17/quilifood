@@ -1,20 +1,31 @@
 <p id="notice"><%= notice %></p>
-<h1>Restaurante</h1>
+<%= link_to "Regresar al mapa", mapa_path %>
+</br>
+</br>
+<% if @restaurante.avatar.attached? %>
+ <image src="<%=(url_for(@restaurante.avatar))%>" width="100px" height="100px" alt=""> 
+ <h3><%= @restaurante.nombre %></h3></image>
+<% end %> 
 
 <p>
-  <strong>Nombre:</strong>
-  <%= @restaurante.nombre %>
+  <strong>direccion:</strong>
+  <%= @restaurante.direccion %>
 </p>
-
-<% if @restaurante.avatar.attached? %>
- <image src="<%=(url_for(@restaurante.avatar))%>">
-<% end %>
+  <p>
+  <strong>telefono:</strong>
+  <%= @restaurante.telefono %>
+</p>
+</br>
+<strong>menu del restaurante</strong>
 </br>
 <% if @restaurante.image.attached? %>
- <image src="<%=(url_for(@restaurante.image))%>">
+ <image src="<%=(url_for(@restaurante.image))%>" width="500px" height="700px" alt="">
 <% end %>
 </br>
 <% if can? :update, @restaurante  %>
-<%= link_to 'Edit', edit_restaurante_path(@restaurante) %> 
+<%= link_to 'Editar', edit_restaurante_path(@restaurante)%> 
 <% end %>
-<%= link_to 'Back', restaurantes_path %>
+
+<% if can? :manage, @restaurante %>
+<%= link_to 'Regresar', restaurantes_path %>
+<% end %>

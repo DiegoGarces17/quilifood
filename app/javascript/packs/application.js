@@ -16,7 +16,8 @@ import 'jquery-ui/ui/widgets/autocomplete'
 import 'jquery-ui/ui/focusable'
 import 'jquery-ui/ui/data'
 import 'jquery-ui/ui/widgets/tooltip'
-
+import "bootstrap";
+import "../stylesheets/application";
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
@@ -34,3 +35,4 @@ L.Icon.Default.mergeOptions({
   iconUrl: require('leaflet/dist/images/marker-icon.png'),
   shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
+

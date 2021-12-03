@@ -2,5 +2,7 @@
 
 <%= render 'form', restaurante: @restaurante %>
 
-
-<%= link_to 'Back', restaurantes_path %>
+<%= link_to 'regresar', mapa_path %>
+<% if can? :update, @restaurante %>
+<%= link_to 'Ir a restaurantes', restaurantes_path %>
+<% end %>

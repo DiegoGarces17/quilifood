@@ -26,14 +26,14 @@
           <td> SIN PROPIETARIO </td>
         <% end %>
         <% if can? :read, restaurante %>
-          <td><%= link_to 'Show', restaurante %></td>
+          <td><%= link_to 'Mostrar', restaurante %></td>
         <% end %>
        
         <% if can? :update, restaurante  %>
-          <td><%= link_to 'Edit', edit_restaurante_path(restaurante) %></td>
+          <td><%= link_to 'Editar', edit_restaurante_path(restaurante) %></td>
         <% end %>
         <% if can? :destroy, restaurante  %>
-          <td><%= link_to 'Destroy', restaurante, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to 'Eliminar', restaurante, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
       </tr>
     <% end %>
@@ -42,4 +42,4 @@
 
 <br>
 
-<%= link_to 'New Restaurante', new_restaurante_path %>
+<%= link_to 'Nuevo Restaurante', new_restaurante_path %>

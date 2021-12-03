@@ -11,40 +11,44 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :'nombre del restaurante' %>
-    <%= form.text_field :nombre, placeholder:"Eje: Naranjito" %>
-  </div>
+     <div class="field">
+        <%= form.label :'nombre del restaurante' %>
+        <%= form.text_field :nombre, placeholder:"Eje: Naranjito" %>
+    </div>
 
-  <div class="field">
-    <%= form.label :'Dirección del restaurante' %>
-    <%= form.text_field :direccion, placeholder:"Ej: Calle 11 #16-9" %>
-  </div>
+     <div class="field">
+        <%= form.label :'Dirección del restaurante' %>
+        <%= form.text_field :direccion, placeholder:"Ej: Calle 11 #16-9" %>
+    </div>
 
-  <div class="field">
-    <%= form.label :'Telefono' %>
-    <%= form.text_field :telefono %>
-  </div>
+    <div class="field">
+      <%= form.label :'Telefono', :maxlength => 15 %>
+      <%= form.text_field :telefono%>
+    </div>
+    <div class="field">
+      <%= form.label :'latitud'%>
+      <%= form.text_field :lat %>
+    </div>
 
-
-  </div class='float'>
-   <%= form.label :'latitud'%>
-   <%= form.text_field :lat %>
-  </div>
-
-  </div class='float'>
-   <%= form.label :'longitud'%>
-   <%= form.text_field :lng %>
-  </div>
-
-
-<%= form.label "Agregue aqui su logo" %>
-<%= form.file_field :avatar %><rb>
-
-<%= form.label "Agregue su menu como imagen" %>
-<%= form.file_field :image %><rb>
+    <div class="field">
+      <%= form.label :'longitud'%>
+      <%= form.text_field :lng %>
+    </div>
+   
+    <div class="field">
+      <%= form.label "Agregue aqui su logo" %>
+      </br>
+      <%= form.file_field :avatar %>
+      
+      </div>
+      <div class="field">
+      <%= form.label "Agregue su menu como imagen" %>
+      </br>
+      <%= form.file_field :image %>
+      
+      </div>
+      <div class="actions">
+        <%= form.submit 'Crear' %>
+      </div>
+      <% end %>
   
-  <div class="actions">
-    <%= form.submit 'Crear' %>
-  </div>
-<% end %>

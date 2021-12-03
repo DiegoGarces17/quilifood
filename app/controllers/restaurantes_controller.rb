@@ -1,5 +1,5 @@
 class RestaurantesController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource except: :mapa
   before_action :set_restaurante, only: %i[ show edit update destroy ]
   skip_before_action :verify_authenticity_token
   # GET /restaurantes or /restaurantes.json

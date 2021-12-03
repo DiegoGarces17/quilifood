@@ -1,12 +1,11 @@
----
 es:
   activerecord:
     errors:
-      messages:
-        record_invalid: 'La validación falló: %{errors}'
-        restrict_dependent_destroy:
-          has_one: No se puede eliminar el registro porque existe un %{record} dependiente
-          has_many: No se puede eliminar el registro porque existen %{record} dependientes
+      models:
+        usuario:
+          attributes:
+            rol:  
+              required: "Debe suministrar un rol"
   date:
     abbr_day_names:
     - dom
@@ -17,7 +16,7 @@ es:
     - vie
     - sáb
     abbr_month_names:
-    - 
+    -
     - ene
     - feb
     - mar
@@ -39,11 +38,11 @@ es:
     - viernes
     - sábado
     formats:
-      default: "%-d/%-m/%Y"
-      long: "%-d de %B de %Y"
-      short: "%-d de %b"
+      default: ! '%d/%m/%Y'
+      long: ! '%d de %B de %Y'
+      short: ! '%d de %b'
     month_names:
-    - 
+    -
     - enero
     - febrero
     - marzo
@@ -75,39 +74,36 @@ es:
         one: casi 1 año
         other: casi %{count} años
       half_a_minute: medio minuto
-      less_than_x_seconds:
-        one: menos de 1 segundo
-        other: menos de %{count} segundos
       less_than_x_minutes:
         one: menos de 1 minuto
         other: menos de %{count} minutos
+      less_than_x_seconds:
+        one: menos de 1 segundo
+        other: menos de %{count} segundos
       over_x_years:
         one: más de 1 año
         other: más de %{count} años
-      x_seconds:
-        one: 1 segundo
-        other: "%{count} segundos"
-      x_minutes:
-        one: 1 minuto
-        other: "%{count} minutos"
       x_days:
         one: 1 día
-        other: "%{count} días"
+        other: ! '%{count} días'
+      x_minutes:
+        one: 1 minuto
+        other: ! '%{count} minutos'
       x_months:
         one: 1 mes
-        other: "%{count} meses"
-      x_years:
-        one: 1 año
-        other: "%{count} años"
+        other: ! '%{count} meses'
+      x_seconds:
+        one: 1 segundo
+        other: ! '%{count} segundos'
     prompts:
-      second: Segundo
-      minute: Minuto
-      hour: Hora
       day: Día
+      hour: Hora
+      minute: Minutos
       month: Mes
+      second: Segundos
       year: Año
   errors:
-    format: "%{attribute} %{message}"
+    format: ! '%{attribute} %{message}'
     messages:
       accepted: debe ser aceptado
       blank: no puede estar en blanco
@@ -122,25 +118,16 @@ es:
       invalid: no es válido
       less_than: debe ser menor que %{count}
       less_than_or_equal_to: debe ser menor que o igual a %{count}
-      model_invalid: 'La validación falló: %{errors}'
       not_a_number: no es un número
       not_an_integer: debe ser un entero
       odd: debe ser impar
-      other_than: debe ser distinto de %{count}
-      present: debe estar en blanco
-      required: debe existir
+      record_invalid: ! 'La validación falló: %{errors}'
       taken: ya está en uso
-      too_long:
-        one: es demasiado largo (1 carácter máximo)
-        other: es demasiado largo (%{count} caracteres máximo)
-      too_short:
-        one: es demasiado corto (1 carácter mínimo)
-        other: es demasiado corto (%{count} caracteres mínimo)
-      wrong_length:
-        one: no tiene la longitud correcta (1 carácter exactos)
-        other: no tiene la longitud correcta (%{count} caracteres exactos)
+      too_long: es demasiado largo (%{count} caracteres máximo)
+      too_short: es demasiado corto (%{count} caracteres mínimo)
+      wrong_length: no tiene la longitud correcta (%{count} caracteres exactos)
     template:
-      body: 'Se encontraron problemas con los siguientes campos:'
+      body: ! 'Se encontraron problemas con los siguientes campos:'
       header:
         one: No se pudo guardar este/a %{model} porque se encontró 1 error
         other: No se pudo guardar este/a %{model} porque se encontraron %{count} errores
@@ -154,32 +141,28 @@ es:
   number:
     currency:
       format:
-        delimiter: "."
-        format: "%n %u"
+        delimiter: .
+        format: ! '%n %u'
         precision: 2
-        separator: ","
+        separator: ! ','
         significant: false
         strip_insignificant_zeros: false
-        unit: "€"
+        unit: €
     format:
-      delimiter: "."
+      delimiter: .
       precision: 3
-      separator: ","
+      separator: ! ','
       significant: false
       strip_insignificant_zeros: false
     human:
       decimal_units:
-        format: "%n %u"
+        format: ! '%n %u'
         units:
           billion: mil millones
-          million:
-            one: millón
-            other: millones
+          million: millón
           quadrillion: mil billones
           thousand: mil
-          trillion:
-            one: billón
-            other: billones
+          trillion: billón
           unit: ''
       format:
         delimiter: ''
@@ -187,35 +170,30 @@ es:
         significant: true
         strip_insignificant_zeros: true
       storage_units:
-        format: "%n %u"
+        format: ! '%n %u'
         units:
           byte:
             one: Byte
             other: Bytes
-          eb: EB
           gb: GB
           kb: KB
           mb: MB
-          pb: PB
           tb: TB
     percentage:
       format:
         delimiter: ''
-        format: "%n %"
     precision:
       format:
         delimiter: ''
   support:
     array:
-      last_word_connector: " y "
-      two_words_connector: " y "
-      words_connector: ", "
+      last_word_connector: ! ', y '
+      two_words_connector: ! ' y '
+      words_connector: ! ', '
   time:
     am: am
     formats:
-      default: "%A, %-d de %B de %Y %H:%M:%S %z"
-      long: "%-d de %B de %Y %H:%M"
-      short: "%-d de %b %H:%M"
+      default: ! '%A, %d de %B de %Y %H:%M:%S %z'
+      long: ! '%d de %B de %Y %H:%M'
+      short: ! '%d de %b %H:%M'
     pm: pm
-    en:
-  hello: "Hello world"

@@ -13,7 +13,7 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :nusuario %>
+    <%= form.label "Nombre de usuario" %>
     <%= form.text_field :nusuario %>
   </div>
 
@@ -36,6 +36,13 @@
     <%= form.label :email %>
     <%= form.text_field :email %>
   </div>
+  <% if current_usuario %>
+    <% if current_usuario.rol_id == 1 %>
+        <%= form.label :rol %>
+        <%= form.collection_select(:rol_id, Rol.all, :id, :nombre)%>
+     <% end %>
+  <% end %>
+
 
   <div class="actions">
     <%= form.submit %>

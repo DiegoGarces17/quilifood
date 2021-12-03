@@ -21,8 +21,8 @@ class UsuariosController < ApplicationController
 
   # POST /usuarios or /usuarios.json
   def create
-    @usuario = Usuario.new(usuario_params)
 
+    @usuario = Usuario.new(usuario_params)
     respond_to do |format|
       if @usuario.save
         format.html { redirect_to @usuario, notice: "Usuario was successfully created." }
@@ -64,7 +64,7 @@ class UsuariosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def usuario_params
-      byebug
+      
       params.require(:usuario).permit(:nusuario, :nombres, :apellidos, :telefono, :email, :rol)
     end
 end

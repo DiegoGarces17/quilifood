@@ -1,50 +1,38 @@
-<h2>Sign up</h2>
+<h2><%= t('.sign_up', :default => "Sign up") %></h2>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
 
-  <div class="field">
-    <%= f.input :email, 
-    autofocus: true, 
-    autocomplete: "email" %>
-  </div>
+  <div><%= f.label :email %><br />
+  <%= f.email_field :email %></div>
 
-  <div class="field">
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+  <div><%= f.label :password %><br />
+  <%= f.password_field :password %></div>
 
-  <div class="field">
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+  <div><%= f.label :password_confirmation %><br />
+  <%= f.password_field :password_confirmation %></div>
 
-  <div class="field">
-    <%= f.input :nusuario, autocomplete: "nusuario" %>
-  </div>
-  <div class="field">
-  <%= f.input :nombres, autocomplete: "nombres" %>
-  </div>
-  <div class="field">
-  <%= f.input :apellidos, autocomplete: "apellidos" %>
-  </div>
-  <div class="field">
-  <%= f.input :telefono, autocomplete: "telefono" %>
-  </div>
-  <div class="field">
-  <%= f.association :rol, 
-    collection: Rol.all,
-    label_method: lambda{|k| k.nombre},
-    label_value: lambda{|k| k.id},
-    include_blank: false,
-    autocomplete: "rol" %>
-  </div>
+  <div><%= f.label :Nick %><br />
+  <%= f.text_field :nusuario %></div>
 
-  <div class="actions">
-    <%= f.button :submit, 'Registrarse' %>
-  </div>
-  
+  <div><%= f.label :Nombres %><br />
+  <%= f.text_field :nombres %></div>
+
+  <div><%= f.label :apellidos %><br />
+  <%= f.text_field :apellidos %></div>
+
+  <div class="field"><%= f.label :Telefono %><br />
+  <%= f.text_field :telefono %></div>
+   <div class="field">
+   
+  <% if current_usuario %>
+    <% if current_usuario.rol_id == 1 %>
+     <%= f.label :rol %>
+     <%= f.collection_select(:rol_id, Rol.all, :id, :nombre)%>
+     <% end %>
+  <% end %>
+    </div>
+  <div><%= f.submit t('.sign_up', :default => "Sign up") %></div>
 <% end %>
 
 <%= render "devise/shared/links" %>

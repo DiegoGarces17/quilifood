@@ -1,8 +1,20 @@
+
+<h1> Quilifood</h1>
 <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.Default.css' rel='stylesheet' />
 <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.css' rel='stylesheet' />
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
+  <%= form_tag("/search", method: "get") do %>
+    <%= label_tag(:q, "Encontrar Restaurante:") %>
+    <%= text_field_tag(:q) %>
+    <%= submit_tag("Buscar") %>
+    <% if current_usuario %>
+      <a href="restaurantes/new" class="btn btn-outline-primary" btn-lg role="button">Agrega tú Restaurante</a>
+    <% else %>
+      <a href="usuarios/sign_in" class="btn btn-outline-primary" btn-lg role="button">Agrega tú Restaurante</a>   
+    <% end %>
+  <% end %>
 <div id="filtro-osm">
   <div class="card border-primary">
     <div class="card-body">
@@ -32,14 +44,7 @@
   </div>
 </div>
 <div id="mapa-osm"></div>
-<% if current_usuario %>
-  <div id="agrega-capa">
-    <button id="agregar-capa" type="button" class="btn btn-primary btn-sm">Agregar capa GeoJSON (&lt;100K)</button>
-  </div>
-  <div id="descarga-mapa">
-    <button id="descargar-mapa" type="button" class="btn btn-primary btn-sm"><a id= "enlace-descarga">Descargar capa de casos</a></button>
-  </div>
-<% end %>
+
 <% if current_usuario %>
   <script>
     presentarMapaOsm(true)

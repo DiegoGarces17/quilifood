@@ -22,6 +22,7 @@
         <td><%= usuario.nombres %></td>
         <td><%= usuario.apellidos %></td>
         <td><%= usuario.telefono %></td>
+        <td><%= usuario.rol.nombre if usuario.rol %></td>
         <td><%= usuario.email %></td>
         <td><%= link_to 'Show', usuario %></td>
         <td><%= link_to 'Edit', edit_usuario_path(usuario) %></td>

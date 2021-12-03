@@ -140,7 +140,7 @@ function presentarMapaOsm(usuario_autenticado) {
       var listaMarcadores = []
       var o = JSON.parse(data);
       var numResultados = 0;
-      debugger
+      
       for(var codigo in o) {
         var lat = o[codigo].lat;
         var lng = o[codigo].lng;
@@ -154,7 +154,7 @@ function presentarMapaOsm(usuario_autenticado) {
         lngf = parseFloat(lng);
         numResultados++;
         var punto = new L.LatLng(latf, lngf);
-        listaMarcadores.push(creaMarcador(punto, codigo));
+        listaMarcadores.push(creaMarcador(punto, o[codigo], o[codigo].nombre));
         
       }
       marcadores.addLayers(listaMarcadores);
@@ -168,60 +168,40 @@ function presentarMapaOsm(usuario_autenticado) {
   function creaMarcador(punto, codigo, titulo) {
     // Exportar los casos a formato GeoJson
     var marcadorCaso = new L.Marker(punto)
-  
+    
     //Acción al hacer clic en caso en el mapa
     marcadorCaso.on('click', clicMarcadorCaso);
     function clicMarcadorCaso() {
       mostrarCargador();
       var root = window;
-      var ruta = root.puntomontaje + 'restaurantes/';
-      var urlSolicitud = ruta + codigo + ".json";  
+      var ruta ='restaurantes/';
+      
+      var urlSolicitud = ruta + codigo.id + ".json";  
       descargarUrl(urlSolicitud, function(req) {
         data = req.responseText;
         if (data == null || data.substr(0, 1) != '{') {
           ocultarCargador();
+          
           window.alert("El URL " + urlSolicitud +
-            " no retorno detalles del caso\n " + data);
+            " no retorno detalles del restaurante\n " + data);
           return;
         }
+        
         var o = JSON.parse(data);
-        var id = (typeof o['caso'].id != 'undefined') ? o['caso'].id : -1;
-        var titulo = (typeof o['caso'].titulo != 'undefined') ? 
-          o['caso'].titulo : '';
-        var hechos = (typeof o['caso'].hechos != 'undefined') ? 
-          o['caso'].hechos : '--';
-        var fecha = o['caso'].fecha; 
-        var hora = o['caso'].hora; 
-        var departamento = o['caso'].departamento; 
-        var municipio = o['caso'].municipio; 
-        var centro_poblado = o['caso'].centro_poblado;
-        var lugar = o['caso'].lugar;
-        var victimas = o['caso'].victimas;
-        var prresp = o['caso'].presponsables;
+        var id = (typeof o.id != 'undefined') ? o.id : -1;
+        var titulo = (typeof o.nombre != 'undefined') ? 
+          o.nombre : '';
         var descripcionCont = '<div>' +
-          '<h3>' + titulo + '</h3>' + '</div>' + '<div>' + hechos + '</div>';
-        var hechosCont = '<div><table>';
-        hechosCont += ((typeof fecha != 'undefined') && fecha != "") ? 
-          '<tr><td>Fecha:</td><td>' + fecha + '</td></tr>' : '';
-        hechosCont += ((typeof hora != 'undefined') && hora != "") ? 
-          '<tr><td>Hora:</td><td>' + hora + '</td></tr>' : '';
-        hechosCont += ((typeof departamento != 'undefined') && 
-          departamento != "") ?  '<tr><td>Departamento:</td><td>' +
-          departamento + '</td></tr>' : '';
-        hechosCont += ((typeof municipio != 'undefined') && 
-          municipio != "") ?  '<tr><td>Municipio:</td><td>' +
-          municipio + '</td></tr>' : '';
-        hechosCont += ((typeof centro_poblado != 'undefined') && 
-          centro_poblado != "") ?  '<tr><td>Centro Poblado:</td><td>' +
-          centro_poblado + '</td></tr>' : '';
-        hechosCont += ((typeof lugar != 'undefined') && 
-          lugar != "") ?  '<tr><td>Vereda:</td><td>' +
-          lugar + '</td></tr>' : '';
-        hechosCont += ((typeof codigo != 'undefined') && codigo != "") ? 
-          '<tr><td>Codigo:</td><td>' + codigo + '</td></tr>' : '';
-        hechosCont += '</table></div>';
-        var victimasCont = obtener_info_victimas(victimas, prresp, o['caso']);
-        capaInfo(descripcionCont, hechosCont, victimasCont);
+          '<h3>' + titulo + '</h3>';
+        
+        var t = JSON.parse(data);
+        var id = (typeof t.id != 'undefined') ? t.id : -1;
+        var phone = (typeof t.telefono != 'undefined') ? 
+          t.telefono : '';
+        var urlres = (typeof t.telefono != 'undefined') ? ('/restaurantes/' + t.id) : ''
+       
+        //var victimasCont = obtener_info_victimas(victimas, prresp, o);
+        capaInfo(descripcionCont, phone, urlres);
         ocultarCargador();
       });
     }
@@ -252,32 +232,22 @@ function presentarMapaOsm(usuario_autenticado) {
   // Variable global donde se carga la capa flotante
   var info;
   // Capa flotante donde se muestra información al pulsar un marcador
-  function capaInfo(des, hec, vic){
+  function capaInfo(des, tel, urlres){
     if (info != undefined) { // si ya tenia información se quita primero
       info.remove(mapa); 
     }
     info = L.control();
     info.onAdd = function (mapa) {
       this._div = L.DomUtil.create('div', 'info card');
-      this.update(des, hec, vic);
+      this.update(des, tel, urlres);
       return this._div;
     };
-    info.update = function (des, hec, vic) {
+    info.update = function (des, tel, urlres) {
       this._div.innerHTML = 
-      ' <div id="infow" class="card-body">' +
-        ' <nav>' +
-          ' <div class="nav nav-tabs" id="nav-tab" role="tablist">' +
-            ' <button class="nav-link active" id="infodes-tab" data-bs-toggle="tab" data-bs-target="#infodes" type="button" role="tab" aria-controls="infodes" aria-selected="true">Descripción</button>' +
-            ' <button class="nav-link" id="infodatos-tab" data-bs-toggle="tab" data-bs-target="#infodatos" type="button" role="tab" aria-controls="infodatos" aria-selected="false">Datos</button>' +
-            ' <button class="nav-link" id="infovictima-tab" data-bs-toggle="tab" data-bs-target="#infovictima" type="button" role="tab" aria-controls="infovictima" aria-selected="false">Víctimas</button>' +
-            ' <button id="boton-cerrar" type="button" class="btn-close close position-absolute top-0 end-0" aria-label="Close"></button>' +
-          ' </div>' +
-        ' </nav>' +
-            ' <div class="tab-content" id="nav-tabContent">' +
-              ' <div class="tab-pane fade show active panel-infomapa" id="infodes" role="tabpanel" aria-labelledby="infodes-tab">'+ des +'</div>' +
-              ' <div class="tab-pane fade panel-infomapa" id="infodatos" role="tabpanel" aria-labelledby="infodatos-tab">'+ hec +'</div>' +
-               ' <div class="tab-pane fade panel-infomapa" id="infovictima" role="tabpanel" aria-labelledby="infovictima-tab">'+ vic +'</div>' +
-            ' </div>' +
+      ' <div class="card-body">' +
+              ' <h3>'+ des +'</h3>' +
+              ' <p>Teléfono: '+ tel +'</p>' +  
+              '<a href='+ urlres +'>Visitar restaurante</a>'    
       '</div>'
       ;
     };
