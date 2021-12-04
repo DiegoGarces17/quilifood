@@ -11,12 +11,12 @@
   <div class="container-fluid">
     <span class="navbar-brand">Mapa Quilifood</span>
 
-    <%= simple_form_for :filtro, {remote: true, url: mapa_path, method: "get" } do |f|%>
+    <%= simple_form_for :filtro,  {remote: true, url: mapa_path, method: "get" } do |f|%>
       <div class="row">
         <div class="col-4 input-group">
-          <%= f.input :nombre, as: :search, label: false, wrapper_html: {class: "form-outline"}, input_html: {class: "form-control" }%>
+          <%= f.input :nombre, as: :search, label: false, wrapper_html: {class: "form-outline"}, input_html: {class: "form-control", placeholder: "Encuentra tu restaurante bb"} %>
        
-          <%= button_tag type: 'submit', class: "btn btn-primary" do %>
+          <%= button_tag type: 'submit', class: "filtrom btn btn-primary", id: "filtro_mapa" do %>
             <i class="bi bi-search"></i>
           <% end %>
         </div>

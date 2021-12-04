@@ -3,6 +3,8 @@ var mapa;
 var baldosasOsm;
 var controlCapas;
 var usuario_aut_global;
+// Filtra restaurantes 
+
 
 function filtrar_adicionales(){
   return [];
@@ -16,7 +18,18 @@ function leerCapasSuperpuestas(){
   };
   return capasSuperpuestas
 }
+
+
 function presentarMapaOsm(usuario_autenticado) {
+
+  //Limpia el mapa de casos cada que se filtra
+  $(document).on('click', '#filtro_mapa', function(){
+    marcadores.clearLayers(); 
+    parametro_nombre = decodeURIComponent($("form").serialize())
+    filtros = [parametro_nombre]
+    agregarCasosOsm(usuario_aut_global, filtros) ;
+  });
+
     usuario_aut_global = usuario_autenticado
     // Borrar clase container y ocultar pie de página
     $('.navbar').addClass('navbarosm');
@@ -82,7 +95,7 @@ function presentarMapaOsm(usuario_autenticado) {
   
     //Crea los cúmulos de casos y agrega casos
     marcadores = L.markerClusterGroup(); 
-    window.setTimeout(agregarCasosOsm(usuario_autenticado), 0);
+    window.setTimeout(agregarCasosOsm(usuario_autenticado, []), 0);
     delete L.Icon.Default.prototype._getIconUrl;
  
   
@@ -116,18 +129,23 @@ function presentarMapaOsm(usuario_autenticado) {
   
   // Construye URL para consulta agregando el punto de montaje antes de
   // ruta_sin_puntomontaje y los filtros acordes a lo elegido a continuación
-  function armarRutaConsulta(root, rutaSinPuntomontaje, usuarioAutenticado) {
+  function armarRutaConsulta(root, rutaSinPuntomontaje, usuarioAutenticado, filtros) {
     var ruta = rutaSinPuntomontaje
-    var urlSolicitud = ruta 
+    if(filtros.length > 0){
+      var urlSolicitud = ruta + "?" + filtros[0]
+    }else{
+      var urlSolicitud = ruta
+    }
+      
     return urlSolicitud;
   }
   
-  
-  function agregarCasosOsm(usuario_autenticado) {
+  function agregarCasosOsm(usuario_autenticado, filtros=[]) {
 
     var root = window;
     
-    urlSolicitud = armarRutaConsulta(root, '/restaurantes.json', usuario_autenticado) 
+    urlSolicitud = armarRutaConsulta(root, '/restaurantes.json', usuario_autenticado, filtros) 
+    
     mostrarCargador();
     descargarUrl(urlSolicitud, function(req) {
       var data = req.responseText;
@@ -136,7 +154,7 @@ function presentarMapaOsm(usuario_autenticado) {
       var listaMarcadores = []
       var o = JSON.parse(data);
       var numResultados = 0;
-      
+    
       for(var codigo in o) {
         var lat = o[codigo].lat;
         var lng = o[codigo].lng;
@@ -271,11 +289,7 @@ $(document).on('click','#boton-cerrar', function() {
     }
   });
   
-  //Limpia el mapa de casos cada que se filtra
-  $(document).on('click', '#agregar-casos-osm', function(){
-    marcadores.clearLayers(); 
-    agregarCasosOsm(usuario_aut_global);
-  });
+  
   
   
   //Descargar capa de casos

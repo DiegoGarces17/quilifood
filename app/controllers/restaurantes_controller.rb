@@ -6,7 +6,7 @@ class RestaurantesController < ApplicationController
   def index
     if params[:filtro]
       nombre_filtro = params[:filtro][:nombre]
-      res_filtrados = Restaurante.all.where("nombre LIKE '%#{nombre_filtro}%' ")
+      res_filtrados = Restaurante.all.where("nombre ILIKE '%#{nombre_filtro}%' ")
       @restaurantes = res_filtrados
     else
       @restaurantes = Restaurante.all.with_attached_avatar
@@ -15,8 +15,6 @@ class RestaurantesController < ApplicationController
       format.html
       format.json {render json: @restaurantes.map{|restaurante|restaurante.as_json.merge({avatar: url_for(restaurante.avatar)})}}
     end
-       
-  
   end
 
   # GET /restaurantes/1 or /restaurantes/1.json
