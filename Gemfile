@@ -65,3 +65,8 @@ gem 'sprockets-rails', :require => 'sprockets/railtie'
 gem 'cancancan'
 
 gem 'webpacker', '~> 5.0'
+
+group :production do 
+  gem 'pg' 
+  gem 'rails_12factor'
+end
