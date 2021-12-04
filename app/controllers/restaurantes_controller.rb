@@ -36,6 +36,7 @@ class RestaurantesController < ApplicationController
 
   # POST /restaurantes or /restaurantes.json
   def create
+    
     @restaurante = Restaurante.new(restaurante_params)
     @restaurante.propietario_id = current_usuario.id
     

@@ -12,6 +12,7 @@
 //
 //= require jquery
 
+//= require mapaform
 //= require mapaosm
 //= require_tree .
 

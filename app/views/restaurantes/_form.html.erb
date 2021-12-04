@@ -1,3 +1,5 @@
+
+
 <%= form_with(model: restaurante,  html: {multipart: true } ) do |form| %>
   <% if restaurante.errors.any? %>
     <div id="error_explanation">
@@ -25,30 +27,35 @@
       <%= form.label :'Telefono', :maxlength => 15 %>
       <%= form.text_field :telefono%>
     </div>
-    <div class="field">
-      <%= form.label :'latitud'%>
-      <%= form.text_field :lat %>
-    </div>
+        
+      <%= form.hidden_field :lat %>      
+      <%= form.hidden_field :lng %>
 
-    <div class="field">
-      <%= form.label :'longitud'%>
-      <%= form.text_field :lng %>
-    </div>
    
     <div class="field">
       <%= form.label "Agregue aqui su logo" %>
       </br>
       <%= form.file_field :avatar %>
       
-      </div>
-      <div class="field">
-      <%= form.label "Agregue su menu como imagen" %>
-      </br>
-      <%= form.file_field :image %>
-      
-      </div>
-      <div class="actions">
-        <%= form.submit 'Crear' %>
-      </div>
-      <% end %>
+    </div>
+    <div class="field">
+    <%= form.label "Agregue su menu como imagen" %>
+    </br>
+    <%= form.file_field :image %>
+    
+    </div>
+    <div id="mapa-form"></div>
+    <div class="actions">
+      <%= form.submit 'Crear' %>
+    </div>
+  <% end %>
   
+  <% if current_usuario %>
+    <script>
+      presentarMapaform(false)
+    </script>
+  <% else %>
+    <script>
+      presentarMapaform(false)
+    </script>
+  <% end %>
