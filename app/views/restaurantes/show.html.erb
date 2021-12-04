@@ -1,5 +1,8 @@
 <p id="notice"><%= notice %></p>
 <%= link_to "Regresar al mapa", mapa_path %>
+<% if can? :update, @restaurante  %>
+<%= link_to 'Editar tú Restaurante', edit_restaurante_path(@restaurante)%> 
+<% end %>
 </br>
 </br>
 <% if @restaurante.avatar.attached? %>
@@ -22,9 +25,6 @@
  <image src="<%=(url_for(@restaurante.image))%>" width="500px" height="700px" alt="">
 <% end %>
 </br>
-<% if can? :update, @restaurante  %>
-<%= link_to 'Editar', edit_restaurante_path(@restaurante)%> 
-<% end %>
 
 <% if can? :manage, @restaurante %>
 <%= link_to 'Regresar', restaurantes_path %>

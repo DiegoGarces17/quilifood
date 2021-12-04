@@ -1,32 +1,42 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Quilifood</title>
+  
     <meta name="viewport" content="width=device-width,initial-scale=1">
     
     <%= javascript_include_tag "application" %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= csrf_meta_tags %>
+    
   </head>
-
   <body>
     <nav class="navbar navbar-light bg-light">
-      <img src="<%= image_url('logo.png')%>" width="70px" height="70px" class="d-inline-block align-top" alt="">
-        <% if usuario_signed_in? %>
-          Logged in as <strong><%= current_usuario.email %></strong>.
-          <%= link_to 'Editar perflil', edit_usuario_registration_path, :class => 'navbar-link' %> |
-          <%= link_to "Salir", destroy_usuario_session_path, method: :delete, :class => 'navbar-link'  %>
-        <% else %>
-        
-          <%= link_to "Registrarse", new_usuario_registration_path, :class => 'navbar-link'  %>
-          <%= link_to "Iniciar sesión", new_usuario_session_path, :class => 'navbar-link'  %>
-        <% end %>
-      
+      <div class="container-fluid">
+            <% if usuario_signed_in? %>
+            <h4> Nick: <%= current_usuario.nusuario %></h4>
+            <div class="row">
+              <div class="col-4 input-group">
+               <img src="<%= image_url('logo.png')%>" width="80px" height="80px" alt=""></img>
+               <h2>Quilifood</h2>
+              </div>
+           </div>
+               <div class"col-4 input-group">
+                     <%= link_to 'Editar perfil', edit_usuario_registration_path, :class => 'navbar-link' %>
+                    <%= link_to "Salir", destroy_usuario_session_path, method: :delete, :class => 'navbar-link'%>
+                     <% else %>
+                     <div class"col-8 input-group">
+                     <%= link_to "Registrarse", new_usuario_registration_path, :class => 'navbar-link'  %>
+                     <%= link_to "Iniciar sesión", new_usuario_session_path, :class => 'navbar-link'  %>
+            <% end %>
+                 </div>
+      </div>
     </nav>
     <div class="container">
       <%= yield %>
     </div>
   </body>
+  
+  
 </html>
 

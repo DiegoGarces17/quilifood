@@ -16,6 +16,7 @@ import 'jquery-ui/ui/widgets/autocomplete'
 import 'jquery-ui/ui/focusable'
 import 'jquery-ui/ui/data'
 import 'jquery-ui/ui/widgets/tooltip'
+import 'bootstrap-icons/font/bootstrap-icons.css'
 import "bootstrap";
 import "../stylesheets/application";
 import * as ActiveStorage from "@rails/activestorage"

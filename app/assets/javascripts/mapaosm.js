@@ -20,7 +20,7 @@ function presentarMapaOsm(usuario_autenticado) {
     usuario_aut_global = usuario_autenticado
     // Borrar clase container y ocultar pie de página
     $('.navbar').addClass('navbarosm');
-    $('.card-body').addClass('cardbodyosm');
+   
     $('.card').addClass('cardosm');
 
     // Creación de mapa y sus capas
@@ -30,11 +30,7 @@ function presentarMapaOsm(usuario_autenticado) {
         '<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
   
-    var filtro = L.control({position: 'topleft'});
-    filtro.onAdd = function (mapa) {
-      this._div = L.DomUtil.get('filtro-osm');
-      return this._div;
-    };
+  
   
     var capasBase= {
       //  "Mapbox" : mapboxTiles,
@@ -66,7 +62,7 @@ function presentarMapaOsm(usuario_autenticado) {
       mapa = L.map('mapa-osm', {zoomControl: false, minZoom: 2})
         //  .addLayer(mapboxTiles) seria con Mapbox
         .addLayer(baldosasOsm)
-        .addControl(filtro)
+       
         
         .setView([4.6682, -74.071], 6)
         .addControl(controlCapas)
@@ -75,7 +71,7 @@ function presentarMapaOsm(usuario_autenticado) {
     } else {
       mapa = L.map('mapa-osm', {zoomControl: false, minZoom: 2})
         .addLayer(baldosasOsm)
-        .addControl(filtro)
+       
         .setView([3.0094500, -76.4849400], 15)
         .addControl(controlCapas);
     }
@@ -164,6 +160,12 @@ function presentarMapaOsm(usuario_autenticado) {
     });
   }
   
+  // Cierra la capa flotante desde el boton cerrar
+$(document).on('click','#boton-cerrar', function() {
+  if (info != undefined) {
+    info.remove(mapa);
+  }
+});
   
   function creaMarcador(punto, codigo, titulo) {
     // Exportar los casos a formato GeoJson
@@ -191,17 +193,15 @@ function presentarMapaOsm(usuario_autenticado) {
         var id = (typeof o.id != 'undefined') ? o.id : -1;
         var titulo = (typeof o.nombre != 'undefined') ? 
           o.nombre : '';
-        var descripcionCont = '<div>' +
-          '<h3>' + titulo + '</h3>';
-        
-        var t = JSON.parse(data);
-        var id = (typeof t.id != 'undefined') ? t.id : -1;
-        var phone = (typeof t.telefono != 'undefined') ? 
-          t.telefono : '';
-        var urlres = (typeof t.telefono != 'undefined') ? ('/restaurantes/' + t.id) : ''
-       
+        var descripcionCont = '<div><h3>' + titulo + '</h3></div>';
+        var direc = (typeof o.direccion != 'undefined') ? o.direccion : '';
+        var urlres = (typeof o.id != 'undefined') ? ('/restaurantes/' + o.id) : ''
+        var ava = (typeof o.avatar != 'undefined') ? o.avatar : '';
+    
+
+
         //var victimasCont = obtener_info_victimas(victimas, prresp, o);
-        capaInfo(descripcionCont, phone, urlres);
+        capaInfo(descripcionCont, ava, direc, urlres);
         ocultarCargador();
       });
     }
@@ -232,22 +232,25 @@ function presentarMapaOsm(usuario_autenticado) {
   // Variable global donde se carga la capa flotante
   var info;
   // Capa flotante donde se muestra información al pulsar un marcador
-  function capaInfo(des, tel, urlres){
+  function capaInfo(des, ava, direc, urlres){
     if (info != undefined) { // si ya tenia información se quita primero
       info.remove(mapa); 
     }
     info = L.control();
     info.onAdd = function (mapa) {
       this._div = L.DomUtil.create('div', 'info card');
-      this.update(des, tel, urlres);
+      this.update(des, ava, direc, urlres);
       return this._div;
     };
-    info.update = function (des, tel, urlres) {
+    info.update = function (des, ava, direc, urlres) {
       this._div.innerHTML = 
       ' <div class="card-body">' +
-              ' <h3>'+ des +'</h3>' +
-              ' <p>Teléfono: '+ tel +'</p>' +  
-              '<a href='+ urlres +'>Visitar restaurante</a>'    
+              '<button id="boton-cerrar" type="button" class="btn-close close position-absolute top-0 end-0" aria-label="Close">'+
+              '<span aria-hidden="true">&times;</span></button>' +
+              '<h3>'+ des +'</h3>' +
+              '<img class="m-3 img-fluid" src="'+ ava +'" style="max-height: 45vh; width: 35vh"></img>'+
+              '<p>Dirección: '+ direc +'</p>' +  
+              '<a href='+ urlres +'>Visitar restaurante</a>'  
       '</div>'
       ;
     };

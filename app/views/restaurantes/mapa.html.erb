@@ -1,48 +1,48 @@
+</div>
 
-<h1> Quilifood</h1>
 <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.Default.css' rel='stylesheet' />
 <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.css' rel='stylesheet' />
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
-  <%= form_tag("/search", method: "get") do %>
-    <%= label_tag(:q, "Encontrar Restaurante:") %>
-    <%= text_field_tag(:q) %>
-    <%= submit_tag("Buscar") %>
-    <% if current_usuario %>
-      <a href="restaurantes/new" class="btn btn-outline-primary" btn-lg role="button">Agrega tú Restaurante</a>
-    <% else %>
-      <a href="usuarios/sign_in" class="btn btn-outline-primary" btn-lg role="button">Agrega tú Restaurante</a>   
-    <% end %>
-  <% end %>
-<div id="filtro-osm">
-  <div class="card border-primary">
-    <div class="card-body">
-          <div class="col-sm-8">
-            
-          </div>
-          <div class="col-sm-4">
-            <div class= "row">
-              <div class="col-sm-6">
-                <div class="alert alert-success" role="alert">
-                  <span class="nrcasos" id="nrcasos"></span>
-                </div>
-              </div>
-              <div class="col-sm-6">
-                
-                
-                <div id="cargador" class="spinner-border text-secondary" role="status">
-                  <span class='sr-only'>Cargando...</span>
-                </div>
+  
+          
+  <nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <span class="navbar-brand">Mapa Quilifood</span>
 
-              </div>
-            </div>
-          </div>
+    <%= simple_form_for :filtro, {remote: true, url: mapa_path, method: "get" } do |f|%>
+      <div class="row">
+        <div class="col-4 input-group">
+          <%= f.input :nombre, as: :search, label: false, wrapper_html: {class: "form-outline"}, input_html: {class: "form-control" }%>
+       
+          <%= button_tag type: 'submit', class: "btn btn-primary" do %>
+            <i class="bi bi-search"></i>
+          <% end %>
         </div>
-      </form>
+      </div>
+    <% end %>
+
+    
+    <% if current_usuario %>
+    <a href="restaurantes/new" class="btn btn-outline-primary" btn-lg role="button">Agrega tú Restaurante</a>
+    <% else %>
+      <a href="usuarios/sign_in" class="btn btn-outline-primary" btn-lg role="button">Agrega tú Restaurante</a>
+    <% end %>
+
+    
+    <div class="alert alert-primary" role="alert">
+    <span class="nrcasos vertical-center" id="nrcasos"></span>
+      <div id="cargador" class="spinner-border text-primary" role="status">
+        
+      </div>
     </div>
+
+
   </div>
-</div>
+</nav>
+
+
 <div id="mapa-osm"></div>
 
 <% if current_usuario %>

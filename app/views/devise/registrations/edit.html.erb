@@ -42,3 +42,5 @@
 <p><%= t('.unhappy', :default => 'Unhappy') %>? <%= link_to t('.cancel_my_account', :default => "Cancel my account"), registration_path(resource_name), :data => { :confirm => t('.are_you_sure', :default => "Are you sure?") }, :method => :delete %>.</p>
 
 <%= link_to t('devise.shared.links.back', :default => "Back"), :back %>
+
+<%= link_to "Regresar al mapa", mapa_path %>

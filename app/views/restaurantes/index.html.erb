@@ -6,6 +6,10 @@
 
 <h1>Restaurantes</h1>
 
+<%= simple_form_for :filtro, { method: "get" } do |f|%>
+  <%= f.input :nombre, label: false %>
+  <%= f.button :submit, 'Buscar', class: 'btn btn-default' %>
+<% end %>
 
 <table>
   <thead>
@@ -17,15 +21,15 @@
   </thead>
 
   <tbody>
+   
     <% @restaurantes.each do |restaurante| %>
-      <tr>
         <td><%= restaurante.nombre %></td>
         <% if  restaurante.propietario %>
           <td><%= restaurante.propietario.nombres + ' ' + restaurante.propietario.apellidos %></td>
         <% else %>
           <td> SIN PROPIETARIO </td>
         <% end %>
-        <% if can? :read, restaurante %>
+        <% if can? :read, restaurante %> 
           <td><%= link_to 'Mostrar', restaurante %></td>
         <% end %>
        
@@ -41,5 +45,8 @@
 </table>
 
 <br>
-
+<% if can? :manage, Restaurante %>
 <%= link_to 'Nuevo Restaurante', new_restaurante_path %>
+<%= link_to "Regresar al mapa", mapa_path %>
+<% end %>
+
